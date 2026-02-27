@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex-deployment
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+      - name: plex
+        image: plexinc/pms-docker:latest
+        env:
+        - name: PLEX_CLAIM
+          value: "lmao you thought"
+        ports:
+        - containerPort: 32400
+        volumeMounts:
+        - mountPath: /config
+          name: plex-config
+        - mountPath: /media
+          name: plex-media
+      volumes:
+        - name: plex-config
+          persistentVolumeClaim:
+            claimName: plex-claim-config
+        - name: plex-media
+          persistentVolumeClaim:
+            claimName: plex-claim-media
+
