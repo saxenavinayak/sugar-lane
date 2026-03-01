@@ -19,19 +19,17 @@ spec:
         image: plexinc/pms-docker:latest
         env:
         - name: PLEX_CLAIM
-          value: "lmao you thought"
+          value: "claim-XXX"
         ports:
         - containerPort: 32400
         volumeMounts:
         - mountPath: /config
-          name: plex-config
+          name: plex-reserve
+          subPath: config
         - mountPath: /media
-          name: plex-media
+          name: plex-reserve
+          subPath: media
       volumes:
-        - name: plex-config
+        - name: plex-reserve
           persistentVolumeClaim:
-            claimName: plex-claim-config
-        - name: plex-media
-          persistentVolumeClaim:
-            claimName: plex-claim-media
-
+            claimName: plex-reserve-claim
