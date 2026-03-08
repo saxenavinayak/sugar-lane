@@ -10,3 +10,6 @@ package-mode = false
 python = "^3.11"
 python-kasa = "^0.10.2"
 fastapi = { version = "^0.135.1", extras = ["standard"] }
+
+[tool.fastapi]
+entrypoint = "app.main:app"
