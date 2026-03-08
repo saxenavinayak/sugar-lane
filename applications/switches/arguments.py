@@ -15,3 +15,4 @@ host_map = {
 class DeviceHosts(Enum):
     vin_bedroom = "10.0.0.84"
     front_potlights = "10.0.0.155"
+    
