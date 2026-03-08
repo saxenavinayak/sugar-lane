@@ -1,21 +1,14 @@
 from fastapi import Depends, FastAPI
 
-from .deps import kasa_token_is_set
-from .routers import get_light_status
+from .deps import require_env_vars
+from .routers import get_switch
 
-app = FastAPI(dependencies=[Depends(kasa_token_is_set)])
+app = FastAPI(dependencies=[Depends(require_env_vars)])
 
 
-app.include_router(get_light_status.router)
-# app.include_router(
-#     admin.router,
-#     prefix="/admin",
-#     tags=["admin"],
-#     dependencies=[Depends(get_token_header)],
-#     responses={418: {"description": "I'm a teapot"}},
-# )
+app.include_router(get_switch.router)
 
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Bigger Applications!"}
+    return {"message": "Switch status"}

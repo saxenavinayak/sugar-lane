@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from kasa import Discover, Credentials
-from arguments import KASA_USERNAME, KASA_PASSWORD, DeviceHosts
+from applications.switches.app.arguments import KASA_USERNAME, KASA_PASSWORD, DeviceHosts
 
 async def light_is_on(light_name):
     creds = Credentials(username=KASA_USERNAME, password=KASA_PASSWORD)
