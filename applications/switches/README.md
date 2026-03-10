@@ -1,5 +1,7 @@
 ### Build image
-`docker build -t switch_image .`
+```
+docker build -t switch_image .
+```
 
 ### Run Container
 ```
