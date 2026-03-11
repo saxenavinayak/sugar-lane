@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status, HTTPException
 from kasa import Discover, Credentials
 from pydantic import BaseModel
 from ..deps import require_env_vars
@@ -6,7 +6,7 @@ from ..arguments import host_map, KASA_PASSWORD, KASA_USERNAME
 
 router = APIRouter(
     prefix="/switches",
-    responses={404: {"description": "Not found"}},
+    responses={status.HTTP_404_NOT_FOUND: {"description": "Not found"}},
     dependencies=[Depends(require_env_vars)]
 )
 
@@ -18,10 +18,13 @@ class switch_state(BaseModel):
 async def get_lights():
     return host_map
 
-@router.get("/{switch_id}")
+@router.get("/{switch_id}", status_code=status.HTTP_200_OK)
 async def get_switch_status(switch_id: str):
     if (switch_id not in host_map):
-        return {"Error": f"Switch ID must be one of: {list(host_map.keys())}"}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Not a valid switch_id, must be one of {list(host_map.keys())}"
+        )
 
     creds = Credentials(username=KASA_USERNAME, password=KASA_PASSWORD)
     dev = await Discover.discover_single(credentials=creds, host=host_map[switch_id])
@@ -39,7 +42,10 @@ async def get_switch_status(switch_id: str):
 @router.put("/toggle")
 async def toggle_switch(desired_state: switch_state):
     if (desired_state.switch_id not in host_map):
-        return {"Error": f"Switch ID must be one of: {list(host_map.keys())}"}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Not a valid switch_id, must be one of {list(host_map.keys())}"
+        )
     creds = Credentials(username=KASA_USERNAME, password=KASA_PASSWORD)
     dev = await Discover.discover_single(credentials=creds, host=host_map[desired_state.switch_id])
 

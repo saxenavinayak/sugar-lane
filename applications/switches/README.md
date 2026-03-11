@@ -1,3 +1,13 @@
+### Local dev
+Install Deps
+```
+poetry install
+```
+Launch app
+```
+fastapi dev
+```
+
 ### Build image
 ```
 docker build -t switch_image .

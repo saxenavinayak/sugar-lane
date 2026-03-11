@@ -1,5 +1,5 @@
 import os
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 
 async def require_env_vars():
@@ -7,7 +7,7 @@ async def require_env_vars():
     missing = [var for var in required if os.getenv(var) is None]
     if missing:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Missing environment variables: {', '.join(missing)}"
         )
     
