@@ -1,4 +1,4 @@
-FROM python:3.11 as python-base
+FROM python:3.11
 
 RUN mkdir switches
 WORKDIR  /switches

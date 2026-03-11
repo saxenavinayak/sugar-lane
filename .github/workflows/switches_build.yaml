@@ -44,7 +44,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./applications/switches
           file: ./applications/switches/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
