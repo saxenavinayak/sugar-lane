@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: switch-deployment
+  labels:
+    app: switches
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: switches
+  template:
+    metadata:
+      labels:
+        app: switches
+    spec:
+      containers:
+      - name: switch
+        image: saxenavinayak/sugar-lane:main
+        env:
+        - name: KASA_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kasa-user
+              key: kasa-username
+        - name: KASA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kasa-pass
+              key: kasa-password
+        ports:
+        - containerPort: 8000
