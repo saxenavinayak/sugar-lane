@@ -21,12 +21,14 @@ spec:
         - name: KASA_USERNAME
           valueFrom:
             secretKeyRef:
-              name: kasa-user
+              name: kasa-creds
               key: kasa-username
         - name: KASA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kasa-pass
+              name: kasa-creds
               key: kasa-password
         ports:
         - containerPort: 8000
+      imagePullSecrets:
+      - name: regcred
