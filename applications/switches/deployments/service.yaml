@@ -8,6 +8,6 @@ spec:
     app: switches
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 32401
-      nodePort: 32401
+      port: 8080 # Internal cluster services use this port, mandatory, always required
+      targetPort: 8080 # Port the application code listens on, will default to port value if not assigned
+      nodePort: 32401 # The port the node (server) listens on -> k8s will auto assign if not specified
