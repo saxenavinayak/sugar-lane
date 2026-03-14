@@ -29,6 +29,6 @@ spec:
               name: kasa-creds
               key: kasa-password
         ports:
-        - containerPort: 8000
+        - containerPort: 80
       imagePullSecrets:
       - name: regcred
