@@ -47,7 +47,8 @@ jobs:
           context: ./applications/switches
           file: ./applications/switches/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            saxenavinayak/sugar-lane:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
