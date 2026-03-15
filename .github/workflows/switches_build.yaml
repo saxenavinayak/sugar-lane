@@ -57,3 +57,14 @@ jobs:
           subject-name: index.docker.io/saxenavinayak/sugar-lane
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+  update_deployment_manifest:
+    name: Update deployment manifest
+    runs-on: ubuntu-latest
+    run: |
+      python3 .github/update_manifest.py --file_path applications/switches/deployments/deployment.yaml --key spec,template,spec,containers,0,image --value saxenavinayak/sugar-lane:${{ github.sha }}
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      git add .
+      git commit -m "Deploy: Update manifest to image saxenavinayak/sugar-lane:${{ github.sha }}"
+      git push
