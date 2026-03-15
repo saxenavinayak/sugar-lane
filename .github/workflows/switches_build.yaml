@@ -63,6 +63,7 @@ jobs:
     steps:
       - name: Check out the repo
         run: |
+          cd ../
           python3 .github/update_manifest.py --file_path applications/switches/deployments/deployment.yaml --key spec,template,spec,containers,0,image --value saxenavinayak/sugar-lane:${{ github.sha }}
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
