@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: switch-deployment
   labels:
     app: switches
+  name: switch-deployment
 spec:
   replicas: 1
   selector:
@@ -15,20 +15,20 @@ spec:
         app: switches
     spec:
       containers:
-      - name: switch
-        image: saxenavinayak/sugar-lane:main
-        imagePullPolicy: Always
-        env:
+      - env:
         - name: KASA_USERNAME
           valueFrom:
             secretKeyRef:
-              name: kasa-creds
               key: kasa-username
+              name: kasa-creds
         - name: KASA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kasa-creds
               key: kasa-password
+              name: kasa-creds
+        image: saxenavinayak/sugar-lane:5bc1db46855fe1c7805c68b552197b3dcaca6322
+        imagePullPolicy: Always
+        name: switch
         ports:
         - containerPort: 8080
       imagePullSecrets:
