@@ -60,10 +60,13 @@ jobs:
   update_deployment_manifest:
     name: Update deployment manifest
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Check out the repo
+      - name: Check out repo
+        uses: actions/checkout@v6
+      - name: Update manifest and commit
         run: |
-          cd ../
           python3 .github/update_manifest.py --file_path applications/switches/deployments/deployment.yaml --key spec,template,spec,containers,0,image --value saxenavinayak/sugar-lane:${{ github.sha }}
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
