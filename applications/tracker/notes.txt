@@ -1,0 +1,3 @@
+- Changing PW is bit of a pain, TODO: when deleting the PG stateFulSet, figure out a way to auto nuke the PVC data, if the PVC data persists, even after restarting, PG will pick up the old data
+- When you recreated the deployment, Postgres saw those old files, skipped the initialization (and your new password), and loaded the old state.
+- Kubernetes essentially only maps the storage, but doesnt delete the data
