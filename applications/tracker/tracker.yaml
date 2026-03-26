@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tracker
+  name: tracker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker
+  template:
+    metadata:
+      labels:
+        app: tracker
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: postgres-user
+              name: postgres-creds
+        - name: POSTGRES_PW
+          valueFrom:
+            secretKeyRef:
+              key: postgres-password
+              name: postgres-creds
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        image: saxenavinayak/tracker:7dace411865de14d00b42cbfc397bda127e13d4d
+        imagePullPolicy: Always
+        name: switch
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred

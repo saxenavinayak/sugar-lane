@@ -19,6 +19,6 @@ docker run \
     -e KASA_USERNAME=some_username@gmail.com \
     -e KASA_PASSWORD=some_password \
     -d --name switch_container \
-    -p 80:80 \
+    -p 80:8080 \
     switch_image
 ```
