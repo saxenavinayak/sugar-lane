@@ -9,7 +9,7 @@ spec:
   ports:
     - port: 5432
 ---
-# LAN NodePort service
+# Postgres NodePort service
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,3 +34,17 @@ spec:
   ports:
     - port: 8080
       nodePort: 30433
+---
+# Tracker Cluster Service
+# Internal DNS:  http://tracker-public-for-cloudflare.default.svc.cluster.local 
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker-public-for-cloudflare
+spec:
+  selector:
+    app: tracker
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
