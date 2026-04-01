@@ -1,1 +1,4 @@
-# Home lab data for sugar lane
+# Home lab infra
+
+## Architecture
+![image](./content/Arch.png)
