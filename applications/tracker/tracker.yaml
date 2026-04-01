@@ -27,10 +27,10 @@ spec:
               key: postgres-password
               name: postgres-creds
         - name: POSTGRES_HOST
-          value: "postgres"
+          value: postgres
         - name: POSTGRES_PORT
-          value: "5432"
-        image: saxenavinayak/tracker:7dace411865de14d00b42cbfc397bda127e13d4d
+          value: '5432'
+        image: saxenavinayak/tracker:a233783dc363476db8434ebc60733849570a2cc4
         imagePullPolicy: Always
         name: switch
         ports:
