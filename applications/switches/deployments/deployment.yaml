@@ -26,7 +26,7 @@ spec:
             secretKeyRef:
               key: kasa-password
               name: kasa-creds
-        image: saxenavinayak/sugar-lane:45c50b7cb1864b165dee794086f4f5e34067f3dd
+        image: saxenavinayak/sugar-lane:7ab3efe2df0e7503c8c3732dfb909979b0c220c9
         imagePullPolicy: Always
         name: switch
         ports:
