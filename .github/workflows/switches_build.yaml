@@ -1,76 +1,76 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# # This workflow uses actions that are not certified by GitHub.
+# # They are provided by a third-party and are governed by
+# # separate terms of service, privacy policy, and support
+# # documentation.
 
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-# Source; https://docs.github.com/en/actions/tutorials/publish-packages/publish-docker-images 
+# # GitHub recommends pinning actions to a commit SHA.
+# # To get a newer version, you will need to update the SHA.
+# # You can also reference a tag or branch, but the action may change without warning.
+# # Source; https://docs.github.com/en/actions/tutorials/publish-packages/publish-docker-images 
 
-name: Publish switches docker image
+# name: Publish switches docker image
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-      attestations: write
-      id-token: write
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v5
+# jobs:
+#   push_to_registry:
+#     name: Push Docker image to Docker Hub
+#     runs-on: ubuntu-latest
+#     permissions:
+#       packages: write
+#       contents: read
+#       attestations: write
+#       id-token: write
+#     steps:
+#       - name: Check out the repo
+#         uses: actions/checkout@v5
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v4
-        with:
-          username: saxenavinayak
-          password: ${{ secrets.DOCKER_PASSWORD }}
+#       - name: Log in to Docker Hub
+#         uses: docker/login-action@v4
+#         with:
+#           username: saxenavinayak
+#           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: saxenavinayak/sugar-lane
+#       - name: Extract metadata (tags, labels) for Docker
+#         id: meta
+#         uses: docker/metadata-action@v5
+#         with:
+#           images: saxenavinayak/sugar-lane
 
-      - name: Build and push Docker image
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./applications/switches
-          file: ./applications/switches/Dockerfile
-          push: true
-          tags: |
-            saxenavinayak/sugar-lane:${{ github.sha }}
-          labels: ${{ steps.meta.outputs.labels }}
+#       - name: Build and push Docker image
+#         id: push
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: ./applications/switches
+#           file: ./applications/switches/Dockerfile
+#           push: true
+#           tags: |
+#             saxenavinayak/sugar-lane:${{ github.sha }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v3
-        with:
-          subject-name: index.docker.io/saxenavinayak/sugar-lane
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
-  update_deployment_manifest:
-    name: Update deployment manifest
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v6
-      - name: Update manifest and commit
-        run: |
-          python3 .github/update_manifest.py --file_path applications/switches/deployments/deployment.yaml --key spec,template,spec,containers,0,image --value saxenavinayak/sugar-lane:${{ github.sha }}
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#       - name: Generate artifact attestation
+#         uses: actions/attest-build-provenance@v3
+#         with:
+#           subject-name: index.docker.io/saxenavinayak/sugar-lane
+#           subject-digest: ${{ steps.push.outputs.digest }}
+#           push-to-registry: true
+#   update_deployment_manifest:
+#     name: Update deployment manifest
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#     steps:
+#       - name: Check out repo
+#         uses: actions/checkout@v6
+#       - name: Update manifest and commit
+#         run: |
+#           python3 .github/update_manifest.py --file_path applications/switches/deployments/deployment.yaml --key spec,template,spec,containers,0,image --value saxenavinayak/sugar-lane:${{ github.sha }}
+#           git config user.name "github-actions[bot]"
+#           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add .
-          git commit -m "Deploy: Update manifest to image saxenavinayak/sugar-lane:${{ github.sha }}"
-          git push
+#           git add .
+#           git commit -m "Deploy: Update manifest to image saxenavinayak/sugar-lane:${{ github.sha }}"
+#           git push

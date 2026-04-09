@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "vinayaksaxena.uk"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tracker-public-for-cloudflare
+            port:
+              number: 80
