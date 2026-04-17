@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: cold-storage
+provisioner: rancher.io/local-path
+parameters:
+  nodePath: /media/chungus/dynamic-storage
+reclaimPolicy: Retain # Persist data in case I delete a pvc
+volumeBindingMode: WaitForFirstConsumer

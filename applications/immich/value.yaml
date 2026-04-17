@@ -1,0 +1,7 @@
+# Overrides for official helm chart https://github.com/immich-app/immich-charts/blob/main/README.md
+# PVC
+immich:
+  persistence:
+    library:
+      existingClaim: immich-claim
+
