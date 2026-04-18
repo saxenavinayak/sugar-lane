@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-immich
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0" # Allow for large body sizs
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600" # Increase timeouts
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "immich.vinayaksaxena.uk"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: immich-server
+            port:
+              number: 2283
