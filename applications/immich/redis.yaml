@@ -1,0 +1,30 @@
+# Using the official bitnami redis helm chart here
+# https://github.com/bitnami/charts/tree/main/bitnami/redis
+
+architecture: standalone
+
+auth:
+  enabled: true
+  existingSecret: redis-secret
+  existingSecretPasswordKey: redis-password
+
+master:
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: cold-storage
+
+replica:
+  replicaCount: 0
+
+service:
+  type: ClusterIP
+  port: 6379
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
