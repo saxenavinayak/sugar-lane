@@ -1,0 +1,14 @@
+# Open up locally to enable initial bulk transfer
+apiVersion: v1
+kind: Service
+metadata:
+  name: immich-server-nodeport
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/instance: immich
+  ports:
+    - protocol: TCP
+      port: 2283
+      targetPort: 2283
+      nodePort: 32402
