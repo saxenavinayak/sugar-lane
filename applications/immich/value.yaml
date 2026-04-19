@@ -1,7 +1,59 @@
 # Overrides for official helm chart https://github.com/immich-app/immich-charts/blob/main/README.md
 # PVC
 immich:
+  metrics:
+    enabled: false
   persistence:
     library:
       existingClaim: immich-claim
 
+valkey:
+  enabled: false
+
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          tag: v2.6.3
+        env:
+          REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
+          REDIS_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: redis-secret
+                key: redis-password
+          IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+          DB_HOSTNAME: 'immich-database-rw.default.svc.cluster.local'
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-database-app
+                key: password
+          DB_USERNAME: "app"
+          DB_DATABASE_NAME: "app"
+
+machine-learning:
+  enabled: true
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
+            HF_XET_CACHE: /cache/huggingface-xet
+            MPLCONFIGDIR: /cache/matplotlib-config
+  persistence:
+    cache:
+      enabled: true
+      size: 10Gi
+      # Optional: Set this to persistentVolumeClaim to avoid downloading the ML models every start.
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      storageClass: cold-storage
+
+server:
+  enabled: true
