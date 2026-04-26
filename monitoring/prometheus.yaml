@@ -1,0 +1,70 @@
+# values.yaml for kube-prometheus-stack
+# Official chart https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
+
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: cold-storage
+          accessModes: 
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+
+# -- Grafana configuration
+grafana:
+  persistence:
+    enabled: true
+    storageClassName: cold-storage
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+
+  service:
+    type: NodePort
+    nodePort: 30900 
+
+
+  # adminPassword: "changeme"
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: cold-storage   # <-- same storageClass
+          accessModes: 
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+
+# -- node-exporter runs as a DaemonSet — no changes needed for single node
+nodeExporter:
+  enabled: true
+
+# -- kube-state-metrics for deployment/pod health
+kubeStateMetrics:
+  enabled: true
+
+# -- k3s uses its own etcd/scheduler/controller — disable the kube components
+# that aren't exposed in a standard k3s install to avoid broken scrape targets
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeProxy:
+  enabled: false
