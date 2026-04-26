@@ -1,6 +1,7 @@
 # values.yaml for kube-prometheus-stack
 # Official chart https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
 
+namespaceOverride: "monitoring"
 
 prometheus:
   prometheusSpec:
