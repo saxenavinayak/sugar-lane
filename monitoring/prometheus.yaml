@@ -25,6 +25,16 @@ prometheus:
 
 # -- Grafana configuration
 grafana:
+  # Grafana uses this to map cookies after login and OAuth callbacks, have to specify where requests will come from
+  # In a more production setting w/ more users, we can instead use an Ingress URL
+  grafana.ini:
+    server:
+      root_url: "http://192.168.68.78:32403/"
+  # Why this https://github.com/grafana/helm-charts/issues/752
+  # Tldr its a permissions check to see if grafana can write to it
+  initChownData:
+    enabled: false
+
   persistence:
     enabled: true
     storageClassName: cold-storage
@@ -34,7 +44,7 @@ grafana:
 
   service:
     type: NodePort
-    nodePort: 30900 
+    nodePort: 32403 
 
 
   # adminPassword: "changeme"
@@ -46,7 +56,7 @@ alertmanager:
         spec:
           storageClassName: cold-storage   # <-- same storageClass
           accessModes: 
-            - ReadWriteOnce
+            - ReadWriteMany
           resources:
             requests:
               storage: 2Gi

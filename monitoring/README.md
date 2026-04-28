@@ -1,6 +1,9 @@
 ## Deployment
 `helm install kube-prom-stack  oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack -f monitoring/prometheus.yaml -n monitoring --create-namespace`
 
+## Upgrade
+`helm upgrade kube-prom-stack prometheus-community/kube-prometheus-stack -f monitoring/prometheus.yaml`
+
 ### To PF Grafana locally
 `export POD_NAME=$(kubectl --namespace monitoring get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=kube-prom-stack" -oname)`
 
