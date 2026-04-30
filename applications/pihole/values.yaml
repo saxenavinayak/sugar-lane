@@ -1,0 +1,23 @@
+serviceWeb:
+  http:
+    enabled: true
+    port: 80
+    nodePort: 32404
+  type: NodePort
+
+serviceDns:
+  mixedService: true
+  type: LoadBalancer
+  externalIPs:
+    - "192.168.68.78"
+
+
+persistentVolumeClaim:
+  enabled: true
+  storageClassName: cold-storage
+  accessModes:
+    - ReadWriteOnce
+  size: "1Gi"
+
+DNS1: "8.8.8.8"
+DNS2: "8.8.4.4"

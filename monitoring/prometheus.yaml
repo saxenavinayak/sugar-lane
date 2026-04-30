@@ -56,7 +56,7 @@ alertmanager:
         spec:
           storageClassName: cold-storage   # <-- same storageClass
           accessModes: 
-            - ReadWriteMany
+            - ReadWriteOnce
           resources:
             requests:
               storage: 2Gi
