@@ -12,3 +12,10 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 - UI available on http://localhost:8080
 - To access via CLI, login:  `argocd login 127.0.0.1:8080`
+
+
+### Revision (Updated 2026-04-30)
+- Switched to helm chart
+`helm repo add argo https://argoproj.github.io/argo-helm`
+`helm install argocd argo/argo-cd --namespace argocd --create-namespace`
+`helm upgrade argocd argo/argo-cd -f applications/argocd/values.yaml`
