@@ -1,0 +1,9 @@
+githubConfigUrl: "https://github.com/saxenavinayak/sugar-lane"
+
+runnerScaleSetName: "self-hosted-runners"
+
+namespaceOverride: "arc-runners"
+
+maxRunners: 1
+
+githubConfigSecret: gh-secret

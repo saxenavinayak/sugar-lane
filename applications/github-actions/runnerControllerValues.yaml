@@ -1,0 +1,5 @@
+readOnlyRootFilesystem: true
+runAsNonRoot: true
+namespaceOverride: arc-controller
+
+githubConfigSecret: gh-secret
