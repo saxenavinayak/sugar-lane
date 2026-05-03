@@ -4,12 +4,11 @@ on:
 
 jobs:
   Explore-GitHub-Actions:
-    # You need to use the INSTALLATION_NAME from the previous step
     runs-on: self-hosted-runners
     steps:
     - name: Install ArgoCD CLI
       uses: clowdhaus/argo-cd-action/@main
       with:
-        download-url: "https://argocd-server.argocd.svc.cluster.local"
+        download-url: "https://argocd-server.argocd.svc.cluster.local/download/argocd-linux-amd64"
         command: version
         options: --client
