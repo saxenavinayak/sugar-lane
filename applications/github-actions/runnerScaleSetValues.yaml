@@ -20,7 +20,10 @@ template:
       - name: runner
         image: ghcr.io/actions/actions-runner:latest
         command: ["/home/runner/run.sh"]
+        env:
+          - name: NODE_EXTRA_CA_CERTS
+            value: /etc/argocd-cert/argo-cert.crt
         volumeMounts:
           - name: argocd-cert
-            mountPath: /etc/argocd-cert/
-            subPath: argo-cert.crt
+            mountPath: /etc/argocd-cert/argo-cert.crt
+            subPath: argo-cert.crt # This is a location of the secret (ie., tells kube to look at mySecret.argo-cert\.crt instead of the whole value)
