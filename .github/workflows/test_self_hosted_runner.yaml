@@ -10,6 +10,6 @@ jobs:
     - name: Install ArgoCD CLI
       uses: clowdhaus/argo-cd-action/@main
       with:
-        download-url: "argocd-server.argocd.svc.cluster.local"
+        download-url: "https://argocd-server.argocd.svc.cluster.local"
         command: version
         options: --client
