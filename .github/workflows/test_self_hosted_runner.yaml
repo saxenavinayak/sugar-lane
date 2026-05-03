@@ -5,10 +5,12 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: self-hosted-runners
+    env:
+      NODE_TLS_REJECT_UNAUTHORIZED: "0"
     steps:
     - name: Install ArgoCD CLI
       uses: clowdhaus/argo-cd-action/@main
       with:
-        download-url: "http://argocd-server.argocd.svc.cluster.local/download/argocd-linux-amd64"
+        download-url: "https://argocd-server.argocd.svc.cluster.local/download/argocd-linux-amd64"
         command: version
         options: --client
