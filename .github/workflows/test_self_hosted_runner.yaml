@@ -7,4 +7,9 @@ jobs:
     # You need to use the INSTALLATION_NAME from the previous step
     runs-on: self-hosted-runners
     steps:
-    - run: echo "🎉 This job uses runner scale set runners! "
+    - name: Install ArgoCD CLI
+      uses: clowdhaus/argo-cd-action/@main
+      with:
+        download-url: "argocd-server.argocd.svc.cluster.local"
+        command: version
+        options: --client
