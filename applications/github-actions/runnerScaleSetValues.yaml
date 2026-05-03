@@ -7,3 +7,20 @@ namespaceOverride: "arc-runners"
 maxRunners: 1
 
 githubConfigSecret: gh-secret
+
+# We need a podspec to mount a cert so the runners can interact with argocd
+# Discussion here https://github.com/actions/actions-runner-controller/discussions/945
+template:
+  spec:
+    volumes:
+      - name: argocd-cert
+        secret:
+          secretName: "argocd-cert-secret"
+    containers:
+      - name: runner
+        image: ghcr.io/actions/actions-runner:latest
+        command: ["/home/runner/run.sh"]
+        volumeMounts:
+          - name: argocd-cert
+            mountPath: /etc/argocd-cert/
+            subPath: argo-cert.crt
