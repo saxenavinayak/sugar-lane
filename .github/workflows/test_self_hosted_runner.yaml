@@ -20,3 +20,4 @@ jobs:
           --auth-token ${{ secrets.ARGO_CI_CD_TOKEN }}
           --server ${{ secrets.ARGOCD_SERVER }}
           --grpc-web
+          --server-crt /etc/argocd-cert/argo-cert.crt
