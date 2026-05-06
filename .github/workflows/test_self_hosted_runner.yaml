@@ -17,6 +17,6 @@ jobs:
       with:
         command: app sync immich
         options: >-
-          --auth-token ${{ secrets.$ARGO_CI_CD_TOKEN }}
+          --auth-token ${{ secrets.ARGO_CI_CD_TOKEN }}
           --server ${{ secrets.ARGOCD_SERVER }}
           --grpc-web
