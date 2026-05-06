@@ -1,23 +1,26 @@
-name: Actions Runner Controller Demo
+name: Deploy on commit keyword
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  Explore-GitHub-Actions:
+  Deploy-Job:
+    if: contains(github.event.head_commit.message, '[deploy]')
     runs-on: self-hosted-runners
     steps:
-    - name: Install ArgoCD CLI
-      uses: clowdhaus/argo-cd-action/@main
-      with:
-        download-url: "https://argocd-server.argocd.svc.cluster.local/download/argocd-linux-amd64"
-        command: version
-        options: --client
-    - name: Deploy application
-      uses: clowdhaus/argo-cd-action/@main
-      with:
-        command: app sync immich
-        options: >-
-          --auth-token ${{ secrets.ARGO_CI_CD_TOKEN }}
-          --server ${{ secrets.ARGOCD_SERVER }}
-          --grpc-web
-          --server-crt /etc/argocd-cert/argo-cert.crt
+      - name: Install ArgoCD CLI
+        uses: clowdhaus/argo-cd-action/@main
+        with:
+          download-url: "https://argocd-server.argocd.svc.cluster.local/download/argocd-linux-amd64"
+          command: version
+          options: --client
+      - name: Deploy application
+        uses: clowdhaus/argo-cd-action/@main
+        with:
+          command: app sync immich
+          options: >-
+            --auth-token ${{ secrets.ARGO_CI_CD_TOKEN }}
+            --server ${{ secrets.ARGOCD_SERVER }}
+            --grpc-web
+            --server-crt /etc/argocd-cert/argo-cert.crt
