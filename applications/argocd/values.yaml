@@ -7,20 +7,20 @@ server:
 
 ## Argo Configs
 configs:
-  # General Argo CD configuration. Any values you put under `.configs.cm` are passed to argocd-cm ConfigMap.
-  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+    # General Argo CD configuration. Any values you put under `.configs.cm` are passed to argocd-cm ConfigMap.
+    ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
   cm:
-  # We need this config since by default argo has a healthcheck for ingress https://github.com/argoproj/gitops-engine/blob/master/pkg/health/health_ingress.go#L7
-  #  This healthcheck only passes if your ingress has an external IP attached to it via a load balancer
-  # ARgo is checking "is this ingress externally reachable" (we use cloudflare so nginx doesnt need an eip)
-  #  Full discussion here https://github.com/argoproj/argo-cd/issues/14607
-  # (thought dump)
-#   I am using nginx for routing traffic
-# Kubernetes sees we ahve an ingress controller, nginx
-# a lb by default assign an external IP for that ingress controller so we can reach it
-# In our case that is not needed becuase cloudflared sends traffic to clusterIP
-# When I have an ingress for my application, argocd says 
-# hey ingress controller is supposed to route traffic, but how does traffic get to ingress controller because it doesnt have external ip -> infinite loading
+    # We need this config since by default argo has a healthcheck for ingress https://github.com/argoproj/gitops-engine/blob/master/pkg/health/health_ingress.go#L7
+    #  This healthcheck only passes if your ingress has an external IP attached to it via a load balancer
+    # ARgo is checking "is this ingress externally reachable" (we use cloudflare so nginx doesnt need an eip)
+    #  Full discussion here https://github.com/argoproj/argo-cd/issues/14607
+    # (thought dump)
+    #   I am using nginx for routing traffic
+    # Kubernetes sees we ahve an ingress controller, nginx
+    # a lb by default assign an external IP for that ingress controller so we can reach it
+    # In our case that is not needed becuase cloudflared sends traffic to clusterIP
+    # When I have an ingress for my application, argocd says 
+    # hey ingress controller is supposed to route traffic, but how does traffic get to ingress controller because it doesnt have external ip -> infinite loading
     resource.customizations: |
       networking.k8s.io/Ingress:
         health.lua: |
@@ -32,11 +32,14 @@ configs:
     accounts.github-actions-runner: apiKey, login
     accounts.github-actions-runner.enabled: "true"
 
-  # Attaching role policies for ci-cd-service-account, format here: https://github.com/argoproj/argo-helm/blob/803fdd71c896f33fa051b7fe067b36dcf3281b64/charts/argo-cd/values.yaml#L460-L471
-  #  Note, the g, account maps the user we created above to the role
-  policy: |
-    p, role:ci-cd-service-account, applications, get, *, allow
-    p, role:ci-cd-service-account, applications, sync, *, allow
-    p, role:ci-cd-service-account, applications, update, *, allow
-    g, github-actions-runner, role:ci-cd-service-account
+    # Attaching role policies for ci-cd-service-account, format here: https://github.com/argoproj/argo-helm/blob/803fdd71c896f33fa051b7fe067b36dcf3281b64/charts/argo-cd/values.yaml#L460-L471
+    #  Note, the g, account maps the user we created above to the role
+    # Default project (just a single wildcard did not work)
+  rbac:
+    policy.csv: |
+      p, role:ci-cd-service-account, applications, get, default/*, allow
+      p, role:ci-cd-service-account, applications, list, default/*, allow
+      p, role:ci-cd-service-account, applications, sync, default/*, allow
+      p, role:ci-cd-service-account, applications, update, default/*, allow
+      g, github-actions-runner, role:ci-cd-service-account
 
