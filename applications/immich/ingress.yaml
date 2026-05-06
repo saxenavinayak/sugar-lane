@@ -4,7 +4,7 @@ metadata:
   name: ingress-immich
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "0" # Allow for large body sizs
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600" # Increase timeouts
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "610" # Increase timeouts
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
 spec:
