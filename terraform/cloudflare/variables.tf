@@ -8,3 +8,6 @@ variable "cloudflare_zone_id" {
   type      = string
 }
 
+variable "dns_id" {
+  type      = string
+}

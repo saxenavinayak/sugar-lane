@@ -16,6 +16,14 @@ resource "cloudflare_record" "example" {
   proxied = true
 }
 
+resource "cloudflare_record" "immich_record" {
+  zone_id = var.cloudflare_zone_id # This comes from your domain, vinayaksaxena.uk
+  name    = "immich" # @ is used for root domain vinayaksaxena.uk
+  value   = "${cloudflare_zero_trust_tunnel_cloudflared.home_lab.id}.cfargotunnel.com"
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_config" {
   account_id = var.cloudflare_account_id
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.home_lab.id
@@ -25,6 +33,11 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_config" {
     ingress_rule {
       hostname = "vinayaksaxena.uk"
       service  = "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local"
+    }
+
+    ingress_rule {
+      hostname = "immich.vinayaksaxena.uk"
+      service = "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local"
     }
     # Catch-all rule (Required)
     ingress_rule {
