@@ -88,6 +88,11 @@ end
 #### Deployments
 - Using github actions for the orchestration layer, as it integrates nicely with my development workflow in `git push`. Additionally, github actions offers self hosted runners, so I can run deployments/migrations without having to expose any traffic, as it all runs internally on the cluster
 - Deployments are only made when "[deploy]" is part of the message of the commit
+- Github actions runners are self hosted within the cluster, there are 2 components
+    - **Runner Controller Set** this is a k8s operator that scales and deploys runners based on the job queue
+    - **Runner Scale Set** this deployment deploys a listener pod, which polls github for any pending jobs -- if found, it will tell k8s to spin up a runner to run the workflow in
+    - The runner and the controller are defined in separate namespaces to maintain security and least privelage
+- To allow the runners to make secure requests to argo, they need an SSL certificate -- the argocd cert has been mounted on the runners at `/etc/argocd-cert/argo-cert.crt` allowing us to interact with the api
 
 ```mermaid
 ---
