@@ -1,0 +1,4 @@
+- the whole point!
+- Single-node, traffic flowing into it, (some) traffic flowing out, lan services
+- Show using k3s
+- trello for tracking? (saas)

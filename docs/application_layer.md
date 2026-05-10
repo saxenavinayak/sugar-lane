@@ -1,0 +1,1 @@
+- immich, plex, pihole, personal web tracker, redis/postgres

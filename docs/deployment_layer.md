@@ -1,0 +1,2 @@
+- github + github actions + argocd + self hosted github action runners
+- to do; linters, tests, cloudflare terraform automation via ci cd
