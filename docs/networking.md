@@ -1,1 +1,0 @@
-- cloudflared, cloudflare tunnel, nginx ingress, k3s ingress objects
