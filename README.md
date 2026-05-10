@@ -1,5 +1,9 @@
-# Home lab infra
+## Home lab infra
 
+
+
+#### High Level Architecture
+Currently this is a single node homelab running on bare-metal, hosting 8 QoL services across a k3s cluster. All workloads are containerized, using the official helm charts, managed declaratively via argoCD. The node is LAN only, select services (Tracker, Immich) are exposed externally via Cloudflare Tunnel without exposing the home IP.
 <!--  -->
 
 ```mermaid
@@ -22,6 +26,13 @@ end
 ```
 
 
+#### Networking Layer
+I am using cloudflare tunnel to expose my services (tracker, immich) for bot protection, preventing scraping, DDOS, and to keep home IP protected. 
+- Cloudflare has a DNS record of my domain `vinayaksaxena.uk` (managed via terraform), mapping to my tunnel endpoint
+- My cloudflared deployment (deployed on the cluster) maintains a persistent outbound connection to cloudflare servers
+- Any traffic which hits the domain will be resolved to my tunnel endpoint, and traffic will be proxied through to the ingress manager
+- K3s ships with Traefik, but I have over-written this with NGINX to maintain industry standards (however as of [March 2026](https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/) NGINX ingress will not be maintained, I eventually plan to replace with gateway API )
+- Traffic proxied through to NGINX is accordinly sent to whichever service based on my ingress objects
 ```mermaid
 ---
 title: Networking Layer
@@ -74,12 +85,14 @@ subgraph nginxns["ingress-nginx ns"]
 end
 ```
 
+#### Deployments
+- Using github actions for the orchestration layer, as it integrates nicely with my development workflow in `git push`. Additionally, github actions offers self hosted runners, so I can run deployments/migrations without having to expose any traffic, as it all runs internally on the cluster
+- Deployments are only made when "[deploy]" is part of the message of the commit
+
 ```mermaid
 ---
 title: CI/CD
 ---
-
-
 flowchart TD
     trigger["git push"]
     doNothing["Exit"]
@@ -120,8 +133,6 @@ flowchart TD
     end
 listenerpod --Long polling https--> Repo
 Repo --> listenerpod
-trigger --"[deploy] in commit message"--> githubServer
-trigger --"[deploy] not in commit message"-->doNothing
-    
-
+trigger --"'[deploy]' in commit message"--> githubServer
+trigger --"'[deploy]' not in commit message"-->doNothing
 ```
