@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:14 # You can change the version here
+        image: pgvector/pgvector:pg14 # You can change the version here
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
