@@ -10,3 +10,8 @@ By default, the local path provisioner can only assign PVCs on the node to a spe
 ```
 Then, if you have a `storageClass` object defined in your cluster with the path `/media/chungus`, the provisioner will be able to assign PVCs to this path.
 (Make sure to apply the above manifest and do a rollout start `kubectl rollout restart deployment local-path-provisioner -n kube-system`)
+
+### ArgoCD Multi source application
+- Tried to update the value ovveride file in `applications/valhiem/values.yaml`, pushed to github, but argocd would not detect outofSync
+- This is due to the fact that helm chart lives in a separate repo
+- Argo multi-source solves this https://argo-cd.readthedocs.io/en/latest/user-guide/multiple_sources/

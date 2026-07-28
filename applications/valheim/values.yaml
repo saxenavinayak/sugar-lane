@@ -1,4 +1,7 @@
 # Chart source:  https://github.com/Addyvan/valheim-k8s
+# Braindead, https://argo-cd.readthedocs.io/en/latest/user-guide/multiple_sources/
+# Using multiple sources for argocd application source
+
 worldName: cheese
 serverName: cheese
 

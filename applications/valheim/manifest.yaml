@@ -1,0 +1,27 @@
+# This is the kubernetes object to apply. For argocd UI, just copy+paste everything in spec.[]
+# You have to manually apply this
+# An alternate pattern is to use a  root app / app-of-apps structure where there is a root app that applies argocd manifest
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: valhiem
+  namespace: argocd
+spec:
+  project: default
+
+  sources:
+    - repoURL: https://addyvan.github.io/valheim-k8s/
+      chart: valheim-k8s
+      targetRevision: 2.0.1
+      helm:
+        releaseName: valheim-server
+        valueFiles:
+          - $values/applications/valheim/values.yaml
+
+    - repoURL: https://github.com/saxenavinayak/sugar-lane
+      targetRevision: HEAD
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: valheim
