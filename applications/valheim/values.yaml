@@ -13,3 +13,5 @@ serverStorage:
   hostvol:
     path: /media/chungus/valheim-server
 
+extraEnvironmentVars:
+  SERVER_ARGS: "-modifier resources more"

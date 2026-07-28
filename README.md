@@ -1,5 +1,9 @@
 ## Home lab infra
 
+### Docs
+
+- [Production-style roadmap](docs/production_roadmap.md)
+
 
 
 #### High Level Architecture
