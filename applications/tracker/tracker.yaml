@@ -30,7 +30,7 @@ spec:
           value: postgres
         - name: POSTGRES_PORT
           value: '5432'
-        image: saxenavinayak/tracker:6cfc3748c76d2ebdbcd635340f63d23627b09903
+        image: saxenavinayak/tracker:8edc65702be72421a4b44d33e1408171792352e1
         imagePullPolicy: Always
         name: switch
         ports:
