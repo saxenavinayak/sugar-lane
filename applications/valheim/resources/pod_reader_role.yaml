@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: valheim
-  name: discord-valhiem-pod-reader
+  name: discord-valheim-pod-reader
 rules:
 - apiGroups: [""]
   resources: ["pods", "pods/log"]
@@ -20,7 +20,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: valhiem-pod-role-bounding
+  name: valheim-pod-role-bounding
   namespace: valheim
 roleRef:
     apiGroup: rbac.authorization.k8s.io
