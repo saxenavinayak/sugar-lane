@@ -8,3 +8,25 @@ rules:
   resources: ["pods", "pods/log"]
   verbs: ["get", "list"]
 
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: discord-bot-sa
+  namespace: valheim
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: valhiem-pod-role-bounding
+  namespace: valheim
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: discord-valheim-pod-reader
+subjects:
+- kind: ServiceAccount
+  name: discord-bot-sa
+  namespace: valheim
