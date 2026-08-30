@@ -21,7 +21,11 @@ spec:
     - repoURL: https://github.com/saxenavinayak/sugar-lane
       targetRevision: HEAD
       ref: values # This sets a variables $values that the first source (helm chart) can use for value override
-      path: applications/valheim # This tells argo theres to deploy kube resources from this dir
+     
+    - repoURL: https://github.com/saxenavinayak/sugar-lane
+      targetRevision: HEAD
+      path: applications/valheim/resources # This tells argo theres to deploy kube resources from this dir
+
 
   destination:
     server: https://kubernetes.default.svc
