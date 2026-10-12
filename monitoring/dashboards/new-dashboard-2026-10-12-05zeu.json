@@ -27,7 +27,7 @@
       }
     ],
     "cursorSync": "Off",
-    "description": "A dashboard for the CoreDNS DNS server with updated metrics for version 1.7.0+.  Based on the CoreDNS dashboard by buhay.",
+    "description": "A dashboard for the CoreDNS DNS server with updated metrics for version 1.7.0+.  Based on the CoreDNS dashboard by buhay.\ntest",
     "editable": true,
     "elements": {
       "panel-10": {
@@ -1986,6 +1986,18 @@
       }
     },
     "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/saxenavinayak/sugar-lane/blob/main/monitoring/dashboards/new-dashboard-2026-10-12-05zeu.json"
+      },
       {
         "asDropdown": false,
         "icon": "external link",
