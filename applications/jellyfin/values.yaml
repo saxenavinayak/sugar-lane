@@ -1,0 +1,10 @@
+service:
+  type: NodePort
+  nodePort: 32402
+
+persistence:
+  media:
+    storageClass: 'cold-storage'
+    size: 250Gi
+
+# We should create a storageClass for configs, as we dont want to put it in hdd cold storage but rather in ssd

@@ -16,7 +16,7 @@
 #       ]
 #     }
 # And apply by kubectl -n kube-system rollout restart deployment local-path-provisioner
-
+# kubectl -n kube-system edit configmap local-path-config to ed it
 
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
