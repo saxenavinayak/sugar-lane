@@ -7,4 +7,15 @@ persistence:
     storageClass: 'cold-storage'
     size: 250Gi
 
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: jellyfin.com
+      paths:
+      - path: /
+        pathType: Prefix
+
+
+
 # We should create a storageClass for configs, as we dont want to put it in hdd cold storage but rather in ssd
