@@ -1,0 +1,10 @@
+Jellyfin doesn't natively have a upload-file feature, you have to directly upload to the mounted folder
+Currently the best way is to use scp 
+We can't also directly post files into the PVC as its protected behind SU access
+So solution is to first paste into non-protected folder, then mv it to the PVC
+The ops to run:
+
+scp "C:\path\to\sketchy.mkv" john@192.168.68.78:/media/chungus/
+ssh -t john@192.168.68.78 "sudo mv /media/chungus/sketchy.mkv /media/chungus/dynamic-storage/pvc-6f7a6c94-897e-4026-9c89-b091ef436a39_jellyfin_jellyfin-media/"
+
+(second op should be instant since both file paths are on same filesystem)
