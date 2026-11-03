@@ -21,3 +21,12 @@ persistentVolumeClaim:
 
 DNS1: "8.8.8.8"
 DNS2: "8.8.4.4"
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hosts:
+  - host: blocker.com
+    paths:
+    - path: /
+      pathType: Prefix
